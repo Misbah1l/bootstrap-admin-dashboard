@@ -34,11 +34,5 @@ A responsive, feature-rich admin dashboard built with **HTML5**, **Bootstrap 5**
 ├── js/
 │   └── main.js         # Core Application Logic & State Handling
 └── README.md           # Project Documentation
-🚀 Getting Started
-Clone the repository:
 
-Bash
-git clone [https://github.com/YOUR_USERNAME/bootstrap-admin-dashboard.git](https://github.com/YOUR_USERNAME/bootstrap-admin-dashboard.git)
-Open the project:
-Simply open index.html in your favorite web browser. No complex setup or package installations required!
 
