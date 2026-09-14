@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Admin Panel Dashboard</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="js-sidebar">
+            <div class="h-100">
+                <div class="sidebar-logo">
+                    <a href="#"><i class="fa-solid fa-bolt text-info me-2"></i> Admin Panel</a>
+                </div>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-header">Main Menu</li>
+                    <li class="sidebar-item active">
+                        <a href="#dashboard-section" class="sidebar-link nav-tab-link" data-title="Dashboard Overview">
+                            <i class="fa-solid fa-sliders pe-2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#analytics-section" class="sidebar-link nav-tab-link" data-title="Analytics Page">
+                            <i class="fa-solid fa-chart-line pe-2"></i> Analytics
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#profile-section" class="sidebar-link nav-tab-link" data-title="Users Management">
+                            <i class="fa-solid fa-user pe-2"></i> Profile
+                        </a>
+                    </li>
+                    <li class="sidebar-header">Multi Level Dropdown</li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages" aria-expanded="false">
+                            <i class="fa-solid fa-file-lines pe-2"></i> Pages <i class="fa-solid fa-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item"><a href="#" class="sidebar-link auth-modal-trigger" data-target="#loginModal">Login</a></li>
+                            <li class="sidebar-item"><a href="#" class="sidebar-link auth-modal-trigger" data-target="#registerModal">Register</a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#settings-section" class="sidebar-link nav-tab-link" data-title="System Settings">
+                            <i class="fa-solid fa-gear pe-2"></i> Settings
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main">
+            <!-- Navbar Header -->
+            <nav class="navbar navbar-expand px-3 border-bottom navbar-dark bg-dark">
+                <button class="btn btn-outline-light border-0" id="sidebarToggle" type="button">
+                    <i class="fa-solid fa-bars fs-4"></i>
+                </button>
+
+                <h5 id="pageTitle" class="text-light mb-0 ms-3 d-none d-md-block">Dashboard Overview</h5>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <!-- Theme Toggle Button -->
+                        <li class="nav-item me-2">
+                            <button id="themeToggleBtn" class="btn btn-outline-secondary btn-sm text-light rounded-circle" title="Toggle Light/Dark Mode">
+                                <i class="fa-solid fa-sun" id="themeIcon"></i>
+                            </button>
+                        </li>
+                        
+                        <!-- Notifications Bell Dropdown -->
+                        <li class="nav-item dropdown me-2">
+                            <a href="#" class="nav-icon position-relative text-light fs-5 px-2" data-bs-toggle="dropdown">
+                                <i class="fa-regular fa-bell"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifBadge" style="font-size: 0.6rem;">3</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark p-2" style="width: 280px;">
+                                <h6 class="dropdown-header border-bottom border-secondary px-0 pb-2">Notifications</h6>
+                                <div class="list-group list-group-flush small">
+                                    <a href="#" class="list-group-item list-group-item-action bg-transparent text-light px-1 border-0">
+                                        <i class="fa-solid fa-cart-shopping text-info me-2"></i> New Order #ORD-1004 received.
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action bg-transparent text-light px-1 border-0">
+                                        <i class="fa-solid fa-user-plus text-success me-2"></i> User Registration: Misbah.
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action bg-transparent text-light px-1 border-0">
+                                        <i class="fa-solid fa-triangle-exclamation text-warning me-2"></i> Server CPU load > 80%.
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Search Box -->
+                        <li class="nav-item me-2 d-none d-sm-block">
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="tableSearch" class="form-control bg-dark text-light border-secondary" placeholder="Search Orders, Customers...">
+                            </div>
+                        </li>
+
+                        <!-- Profile Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0 d-flex align-items-center text-decoration-none">
+                                <span id="navUserName" class="text-light me-2 fw-semibold">Guest User</span>
+                                <img id="navUserAvatar" src="https://ui-avatars.com/api/?name=Guest+User&background=6c757d&color=fff" class="avatar img-fluid rounded-circle" alt="User" style="width: 32px; height: 32px;">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                                <a href="#profile-section" class="dropdown-item nav-tab-link" data-title="Users Management"><i class="fa-regular fa-user me-2"></i>Profile</a>
+                                <a href="#settings-section" class="dropdown-item nav-tab-link" data-title="System Settings"><i class="fa-solid fa-gear me-2"></i>Setting</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item text-danger btnLogoutAction"><i class="fa-solid fa-power-off me-2"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Toast Notification Container -->
+            <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+                <div id="liveToast" class="toast align-items-center text-bg-dark border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body" id="toastMessage">
+                            Action completed successfully!
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Body -->
+            <main class="content px-3 py-4">
+                <div class="container-fluid">
+                    
+                    <!-- Tab 1: Main Dashboard Section -->
+                    <div id="dashboard-section" class="tab-content-section">
+                        <div class="row g-3 mb-4">
+                            <div class="col-12 col-md-6 col-lg-3">
+                                <div class="card bg-card border-0 shadow-sm hover-lift">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-secondary fw-bold">Total Sales</span>
+                                            <i class="fa-solid fa-dollar-sign text-success fs-4"></i>
+                                        </div>
+                                        <h3 class="fw-bold text-light mt-2 mb-1" id="kpiTotalSales">$24,500</h3>
+                                        <span class="badge bg-success-subtle text-success"><i class="fa-solid fa-arrow-up"></i> +12.5%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3">
+                                <div class="card bg-card border-0 shadow-sm hover-lift">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-secondary fw-bold">Total Orders</span>
+                                            <i class="fa-solid fa-cart-shopping text-info fs-4"></i>
+                                        </div>
+                                        <h3 class="fw-bold text-light mt-2 mb-1" id="kpiTotalOrders">4</h3>
+                                        <span class="badge bg-info-subtle text-info"><i class="fa-solid fa-arrow-up"></i> Live</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3">
+                                <div class="card bg-card border-0 shadow-sm hover-lift">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-secondary fw-bold">New Customers</span>
+                                            <i class="fa-solid fa-users text-warning fs-4"></i>
+                                        </div>
+                                        <h3 class="fw-bold text-light mt-2 mb-1">450</h3>
+                                        <span class="badge bg-warning-subtle text-warning"><i class="fa-solid fa-arrow-down"></i> -3.1%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3">
+                                <div class="card bg-card border-0 shadow-sm hover-lift">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-secondary fw-bold">Pending Requests</span>
+                                            <i class="fa-solid fa-clock text-danger fs-4"></i>
+                                        </div>
+                                        <h3 class="fw-bold text-light mt-2 mb-1">18</h3>
+                                        <span class="badge bg-danger-subtle text-danger"><i class="fa-solid fa-exclamation"></i> Urgent</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charts Row -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-12 col-lg-8">
+                                <div class="card bg-card border-0 shadow-sm p-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="card-title text-light mb-0">Revenue Analytics</h6>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-secondary text-light active filter-btn" data-range="day">Day</button>
+                                            <button class="btn btn-outline-secondary text-light filter-btn" data-range="month">Month</button>
+                                            <button class="btn btn-outline-secondary text-light filter-btn" data-range="year">Year</button>
+                                        </div>
+                                    </div>
+                                    <div style="height: 300px; position: relative;">
+                                        <canvas id="salesOverviewChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="card bg-card border-0 shadow-sm p-3">
+                                    <h6 class="card-title text-light mb-3">Traffic Source</h6>
+                                    <div style="height: 300px; position: relative;" class="d-flex justify-content-center">
+                                        <canvas id="trafficSourceChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Table Row -->
+                        <div class="card bg-card border-0 shadow-sm p-3">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+                                <h6 class="card-title text-light mb-0">Recent Orders</h6>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#addOrderModal">
+                                        <i class="fa-solid fa-plus me-1"></i> Add Order
+                                    </button>
+                                    <button id="btnExportCSV" class="btn btn-sm btn-outline-success">
+                                        <i class="fa-solid fa-file-csv me-1"></i> Export CSV
+                                    </button>
+                                    <button id="btnRefresh" class="btn btn-sm btn-outline-light">
+                                        <i class="fa-solid fa-rotate me-1"></i> Refresh
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover align-middle mb-0" id="ordersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer</th>
+                                            <th>Status</th>
+                                            <th>Amount</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ordersTableBody">
+                                        <!-- Dynamic Orders Will Load Here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Analytics Section -->
+                    <div id="analytics-section" class="tab-content-section d-none">
+                        <div class="row g-3 mb-4">
+                            <div class="col-12 col-md-4">
+                                <div class="card bg-card p-3 border-0 shadow-sm">
+                                    <span class="text-secondary">Page Views</span>
+                                    <h3 class="text-light fw-bold mt-1">142,850</h3>
+                                    <span class="text-success small"><i class="fa-solid fa-arrow-up"></i> +14.2% vs last month</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="card bg-card p-3 border-0 shadow-sm">
+                                    <span class="text-secondary">Conversion Rate</span>
+                                    <h3 class="text-light fw-bold mt-1">4.62%</h3>
+                                    <span class="text-success small"><i class="fa-solid fa-arrow-up"></i> +0.8% performance</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="card bg-card p-3 border-0 shadow-sm">
+                                    <span class="text-secondary">Avg Session Duration</span>
+                                    <h3 class="text-light fw-bold mt-1">3m 42s</h3>
+                                    <span class="text-danger small"><i class="fa-solid fa-arrow-down"></i> -12s retention</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Profile Section -->
+                    <div id="profile-section" class="tab-content-section d-none">
+                        <div class="row g-4">
+                            <div class="col-12 col-lg-4">
+                                <div class="card bg-card border-0 shadow-sm text-center p-4">
+                                    <div class="mb-3">
+                                        <img id="profileCardAvatar" src="https://ui-avatars.com/api/?name=Guest+User&background=6c757d&color=fff&size=128" class="rounded-circle img-thumbnail bg-dark border-secondary" alt="Admin Profile">
+                                    </div>
+                                    <h5 id="profileCardName" class="text-light fw-bold mb-1">Guest User</h5>
+                                    <p class="text-info mb-2"><i class="fa-solid fa-shield-halved me-1"></i> <span id="profileCardRole">Visitor</span></p>
+                                    <span id="profileStatusBadge" class="badge bg-secondary-subtle text-secondary px-3 py-2">Logged Out</span>
+                                    <hr class="border-secondary my-3">
+                                    <div class="text-start text-secondary">
+                                        <p class="mb-1"><i class="fa-solid fa-envelope me-2"></i> <span id="profileCardEmail">Not Logged In</span></p>
+                                        <p class="mb-0"><i class="fa-solid fa-location-dot me-2"></i> Main Office, HQ</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-8">
+                                <div class="card bg-card border-0 shadow-sm p-4">
+                                    <h5 class="text-light mb-4"><i class="fa-solid fa-user-pen me-2 text-info"></i> Edit Profile Details</h5>
+                                    <form id="profileForm">
+                                        <div class="row g-3 mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label text-secondary">First Name</label>
+                                                <input type="text" id="inputFirstName" class="form-control bg-dark text-light border-secondary" placeholder="Enter First Name" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label text-secondary">Last Name</label>
+                                                <input type="text" id="inputLastName" class="form-control bg-dark text-light border-secondary" placeholder="Enter Last Name">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label text-secondary">Email Address</label>
+                                            <input type="email" id="inputEmail" class="form-control bg-dark text-light border-secondary" placeholder="Enter Email" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-info mt-2"><i class="fa-solid fa-floppy-disk me-1"></i> Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: Settings Section -->
+                    <div id="settings-section" class="tab-content-section d-none">
+                        <div class="row g-4">
+                            <div class="col-12 col-lg-8">
+                                <div class="card bg-card border-0 shadow-sm p-4 mb-4">
+                                    <h5 class="text-light mb-3"><i class="fa-solid fa-sliders text-info me-2"></i> General System Configuration</h5>
+                                    <form id="settingsForm">
+                                        <div class="mb-3">
+                                            <label class="form-label text-secondary">Application Name</label>
+                                            <input type="text" class="form-control bg-dark text-light border-secondary" value="Admin Panel Dashboard">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label text-secondary">Admin Notification Email</label>
+                                            <input type="email" class="form-control bg-dark text-light border-secondary" value="system-alerts@dashboard.com">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label text-secondary">Timezone</label>
+                                            <select class="form-select bg-dark text-light border-secondary">
+                                                <option selected>UTC+05:00 (Asia/Karachi)</option>
+                                                <option>UTC+00:00 (GMT)</option>
+                                                <option>UTC-05:00 (EST)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="emailNotifSwitch" checked>
+                                            <label class="form-check-label text-light" for="emailNotifSwitch">Enable Automatic Email Notifications</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-info"><i class="fa-solid fa-floppy-disk me-1"></i> Save Preferences</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL 1: Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title"><i class="fa-solid fa-right-to-bracket text-info me-2"></i> User Login</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm" class="auth-form-container">
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input type="email" id="loginEmail" class="form-control bg-dark text-light border-secondary" placeholder="user@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control bg-dark text-light border-secondary" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-info w-100">Sign In</button>
+                    </form>
+                    <div class="auth-logged-in-container text-center py-3 d-none">
+                        <img src="" class="active-user-avatar rounded-circle mb-3 border border-info p-1" style="width: 80px; height: 80px;" alt="User Avatar">
+                        <h5 class="active-user-name fw-bold text-light mb-1">User Name</h5>
+                        <p class="active-user-email text-secondary mb-4">user@example.com</p>
+                        <button type="button" class="btn btn-danger w-100 btnLogoutAction"><i class="fa-solid fa-power-off me-2"></i>Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title"><i class="fa-solid fa-user-plus text-success me-2"></i> Register Account</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm" class="auth-form-container">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" id="regName" class="form-control bg-dark text-light border-secondary" placeholder="Misbah" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input type="email" id="regEmail" class="form-control bg-dark text-light border-secondary" placeholder="misbah@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control bg-dark text-light border-secondary" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Create Account</button>
+                    </form>
+                    <div class="auth-logged-in-container text-center py-3 d-none">
+                        <img src="" class="active-user-avatar rounded-circle mb-3 border border-success p-1" style="width: 80px; height: 80px;" alt="User Avatar">
+                        <h5 class="active-user-name fw-bold text-light mb-1">User Name</h5>
+                        <p class="active-user-email text-secondary mb-4">user@example.com</p>
+                        <button type="button" class="btn btn-danger w-100 btnLogoutAction"><i class="fa-solid fa-power-off me-2"></i>Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Add New Order Modal -->
+    <div class="modal fade" id="addOrderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title"><i class="fa-solid fa-cart-plus text-info me-2"></i> Add New Order</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addOrderForm">
+                        <div class="mb-3">
+                            <label class="form-label">Customer Name</label>
+                            <input type="text" id="newCustomerName" class="form-control bg-dark text-light border-secondary" placeholder="e.g. Ali Khan" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Amount ($)</label>
+                            <input type="number" step="0.01" id="newOrderAmount" class="form-control bg-dark text-light border-secondary" placeholder="e.g. 150.00" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select id="newOrderStatus" class="form-select bg-dark text-light border-secondary">
+                                <option value="Completed">Completed</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-info w-100">Add Order to Table</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: Order Details Modal -->
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="modalOrderTitle">Order Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Customer Name:</strong> <span id="modalCustomer"></span></p>
+                    <p><strong>Order Status:</strong> <span id="modalStatus"></span></p>
+                    <p><strong>Total Amount:</strong> <span id="modalAmount"></span></p>
+                    <p><strong>Payment Method:</strong> Credit Card / Online</p>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
